@@ -7,7 +7,7 @@
 set -ex
 
 # Extract full update
-aria2c -x5 $1 -o ota.zip
+aria2c --header "userId: oplus-ota|16002018" -x5 $1 -o ota.zip
 unzip ota.zip payload.bin
 mv payload.bin payload_working.bin
 TAG="`unzip -p ota.zip META-INF/com/android/metadata | grep ^version_name= | cut -b 14-`"
@@ -21,7 +21,7 @@ mkdir ota
 
 # Apply incrementals
 for i in ${@:2}; do
-    aria2c -x5 $i -o ota.zip
+    aria2c --header "userId: oplus-ota|16002018" -x5 $i -o ota.zip
     unzip ota.zip payload.bin
     wait
     mv payload.bin payload_working.bin
